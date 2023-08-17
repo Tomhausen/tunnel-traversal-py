@@ -28,11 +28,27 @@ bot.z = -1
 # setup
 scene.set_background_color(1)
 
+def clockwise_flip():
+    bot.y -= 5
+    while not bot.overlaps_with(bottom):
+        transformSprites.change_rotation(bot, 10)
+        pause(50)
+    transformSprites.rotate_sprite(bot, 90)
+
+def anticlockwise_flip():
+    bot.y += 5
+    while not bot.overlaps_with(top):
+        transformSprites.change_rotation(bot, -10)
+        pause(50)
+    transformSprites.rotate_sprite(bot, 90)
+
 def jump():
     if bot.overlaps_with(bottom):
-        bot.vy = -175
+        bot.vy = -150
+        timer.background(clockwise_flip)
     if bot.overlaps_with(top): #
-        bot.vy = 175 #
+        bot.vy = 150 #
+        timer.background(anticlockwise_flip)
 controller.A.on_event(ControllerButtonEvent.PRESSED, jump)
 
 def switch_side(): #

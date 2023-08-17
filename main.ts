@@ -29,15 +29,31 @@ bot.vx = game_speed
 bot.z = -1
 //  setup
 scene.setBackgroundColor(1)
-// 
 controller.A.onEvent(ControllerButtonEvent.Pressed, function jump() {
     if (bot.overlapsWith(bottom)) {
-        bot.vy = -175
+        bot.vy = -150
+        timer.background(function clockwise_flip() {
+            bot.y -= 5
+            while (!bot.overlapsWith(bottom)) {
+                transformSprites.changeRotation(bot, 10)
+                pause(50)
+            }
+            transformSprites.rotateSprite(bot, 90)
+        })
     }
     
     if (bot.overlapsWith(top)) {
         // 
-        bot.vy = 175
+        bot.vy = 150
+        // 
+        timer.background(function anticlockwise_flip() {
+            bot.y += 5
+            while (!bot.overlapsWith(top)) {
+                transformSprites.changeRotation(bot, -10)
+                pause(50)
+            }
+            transformSprites.rotateSprite(bot, 90)
+        })
     }
     
 })
